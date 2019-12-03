@@ -7,9 +7,9 @@ const {
 	addDecoratorsLegacy,
 } = require('customize-cra')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+
 /**
- * react-app-rewrited start/build
- * @babel/plugin-proposal-decorators
+ * react-app-rewrited start/build @babel/plugin-proposal-decorators
  */
 const resolve = (dir) => path.resolve(__dirname, dir)
 
@@ -20,6 +20,23 @@ const rewiredMap = () => config => {
 const analyzer = () => config => {
 	config.plugins.push(new BundleAnalyzerPlugin())
 	return config
+}
+
+//sassÈ«¾ÖÉèÖÃ
+const sassResources = () => config => {
+	const loaders = config.module.rules.find(rule => Array.isArray(rule.oneOf)).oneOf
+  let sassLoader = loaders.find( loader => {
+    if(!Array.isArray(loader.test) && loader.test && loader.test.exec('.scss')){
+      return loader
+    }
+  });
+  sassLoader.use.push({
+    loader: 'sass-resources-loader',
+    options: {
+      resources: [resolve('./src/utils.scss')]
+    }
+  })
+	return config;
 }
 
 module.exports = override(
