@@ -1,11 +1,5 @@
-const path = require('path');
-const {
-	override,
-	addBundleVisualizer,
-	disableEsLint,
-	addWebpackAlias,
-	addDecoratorsLegacy,
-} = require('customize-cra')
+const path = require('path')
+const { override, addBundleVisualizer, disableEsLint, addWebpackAlias, addDecoratorsLegacy } = require('customize-cra')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 /**
@@ -13,39 +7,39 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
  */
 const resolve = (dir) => path.resolve(__dirname, dir)
 
-const rewiredMap = () => config => {
-	config.devtool = config.mode === 'development' ? 'cheap-module-source-map' : false
-	return config
+const rewiredMap = () => (config) => {
+  config.devtool = config.mode === 'development' ? 'cheap-module-source-map' : false
+  return config
 }
-const analyzer = () => config => {
-	config.plugins.push(new BundleAnalyzerPlugin())
-	return config
+const analyzer = () => (config) => {
+  config.plugins.push(new BundleAnalyzerPlugin())
+  return config
 }
 
-//sassÈ«¾ÖÉèÖÃ
-const sassResources = () => config => {
-	const loaders = config.module.rules.find(rule => Array.isArray(rule.oneOf)).oneOf
-  let sassLoader = loaders.find( loader => {
-    if(!Array.isArray(loader.test) && loader.test && loader.test.exec('.scss')){
+//sasså…¨å±€è®¾ç½®
+const sassResources = () => (config) => {
+  const loaders = config.module.rules.find((rule) => Array.isArray(rule.oneOf)).oneOf
+  let sassLoader = loaders.find((loader) => {
+    if (!Array.isArray(loader.test) && loader.test && loader.test.exec('.scss')) {
       return loader
     }
-  });
+  })
   sassLoader.use.push({
     loader: 'sass-resources-loader',
     options: {
-      resources: [resolve('./src/utils.scss')]
-    }
+      resources: [resolve('./src/utils.scss')],
+    },
   })
-	return config;
+  return config
 }
 
 module.exports = override(
   disableEsLint(),
-	addDecoratorsLegacy(),
-	addWebpackAlias({
-		['@']: resolve('src'),
-		['@utils']: resolve('src/utils'),
+  addDecoratorsLegacy(),
+  addWebpackAlias({
+    ['@']: resolve('src'),
+    ['@utils']: resolve('src/utils'),
   }),
   // analyzer()
-  process.env.BUNDLE && addBundleVisualizer(),
+  process.env.BUNDLE && addBundleVisualizer()
 )

@@ -7,4 +7,4 @@
 
 4.路由异步加载   react-loadable, AsyncComponent
 
-4.Decorator  
+4.Decorator  全局sass样式  sass-resources-loader
