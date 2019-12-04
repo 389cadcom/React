@@ -1,3 +1,4 @@
+//防抖
 const debounce = (fn, delay=500) => {
   let timer;
   return function () {
@@ -7,6 +8,8 @@ const debounce = (fn, delay=500) => {
     }, delay)
   }
 }
+
+//节流
 const throttle = (fn, delay) => {
   let timer, flag = true
   return function() {
@@ -18,12 +21,10 @@ const throttle = (fn, delay) => {
     if (timer) return false;
     timer = setTimeout(() => {
       clearTimeout(timer);
-      timer = null;  
+      timer = null;
       fn.apply(this, arguments)
     }, delay)
   }
 }
-
-
 
 export { debounce, throttle }

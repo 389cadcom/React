@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import history from '../store/history'
+import history from '../utils/history'
 
 
 export default class navs extends Component {
@@ -18,16 +18,16 @@ export default class navs extends Component {
         break;
     }
   }
-  
+
   render() {
     return (
-      <div>
+      <nav>
         <p>
           <button id="home" onClick = { this.change }>首页</button> <button id="edit" onClick = { this.change }>编辑</button>
         </p>
         <Link to="/">home</Link>
         <Link to="/edit">edit</Link>
-      </div>
+      </nav>
     )
   }
 }

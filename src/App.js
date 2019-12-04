@@ -1,28 +1,59 @@
-import React from 'react';
+import React, { Component } from 'react'
 import { Router, Route, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { actions as appActions } from './store/reducers/appReducer'
 
-import './App.css';
-import logo from './assets/images/logo.svg'
-
-import history from './store/history'
+import history from './utils/history'
 import routes from './routes'
 import Navs from './layouts/navs.js'
 
+import './App.css'
+import logo from './assets/images/logo.svg'
 
-function App() {
-  return (
-    <Router history={ history }>
-      <Navs />
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+/* 装饰器
+@connect(
+  state => ({
+    num: state.appReducer.num
+  }),
+  { ...appActions }
+)
+*/
+export class App extends Component {
+  //connect不传参情况
+  argument = () => {
+    let { dispatch } = this.props;
+    dispatch( appActions.reduxAdd( 2 ) )             //手动触发指定action
+  }
+
+  addHandler = () => {
+    this.props.redux_add(this.props.num + 1)
+  }
+  render() {
+    console.log(this.props);
+    return (
+      <Router history={history}>
+        <Navs />
+        <section style={{ padding: '15px 0' }}>
+          Redux Demo: {this.props.num} <button onClick={ this.addHandler }>redux+</button>
+        </section>
+        <header className='App-header'>
+          <img src={logo} className='App-logo' alt='logo' />
         </header>
         <Switch>
-          { routes.map((router, k)=> <Route {...router} key={k} />) }
+          { routes.map((router, k) => ( <Route {...router} key={k} /> )) }
         </Switch>
-      </div>
-    </Router>
-  );
+      </Router>
+    )
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  num: state.appReducer.num,
+})
+
+const mapDispatchToProps = {
+  ...appActions,
+}
+
+//若不传参, 则默认传入{ dispatch }
+export default connect(mapStateToProps, mapDispatchToProps)(App)
