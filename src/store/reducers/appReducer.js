@@ -4,6 +4,11 @@ export const types = {
 }
 
 export const actions = {
+  async(){
+    return {
+      type: 'add_async',
+    }
+  },
   reduxAdd(num) {
     return {
       type: types.ADD,

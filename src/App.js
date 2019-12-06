@@ -19,17 +19,17 @@ import logo from './assets/images/logo.svg'
 )
 */
 export class App extends Component {
-  //connect不传参情况
+  //connect不传参情况,手动触发指定action
   argument = () => {
     let { dispatch } = this.props;
     dispatch( appActions.reduxAdd( 2 ) )             //手动触发指定action
   }
 
   addHandler = () => {
-    this.props.redux_add(this.props.num + 1)
+    // this.props.reduxAdd(this.props.num + 1)      //redux
+    this.props.async()
   }
   render() {
-    console.log(this.props);
     return (
       <Router history={history}>
         <Navs />
