@@ -1,8 +1,16 @@
 const path = require('path')
-const { override, addBundleVisualizer, disableEsLint, addWebpackAlias, addDecoratorsLegacy } = require('customize-cra')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const {
+  override,
+  fixBabelImports,
+  addBundleVisualizer,
+  disableEsLint,
+  addWebpackAlias,
+  addDecoratorsLegacy,
+} = require('customize-cra')
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 /**
+ * react-app-rewired customize-cra
  * react-app-rewrited start/build @babel/plugin-proposal-decorators
  */
 const resolve = (dir) => path.resolve(__dirname, dir)
@@ -32,13 +40,19 @@ const sassResources = () => (config) => {
   })
   return config
 }
+//别名设置
+const webpackAlias = () => ({
+  ['@']: resolve('src'),
+  ['@utils']: resolve('src/utils'),
+})
 
 module.exports = override(
   disableEsLint(),
   addDecoratorsLegacy(),
-  addWebpackAlias({
-    ['@']: resolve('src'),
-    ['@utils']: resolve('src/utils'),
+  addWebpackAlias(webpackAlias),
+  fixBabelImports('import', {
+    libraryName: 'antd-mobile',
+    style: 'css'
   }),
   // analyzer()
   process.env.BUNDLE && addBundleVisualizer()

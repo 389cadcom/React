@@ -1,5 +1,6 @@
 import home from '../views/home'
 import edit from '../views/edit'
+import antd from '../views/antd'
 
 const routes = [
   {
@@ -11,6 +12,11 @@ const routes = [
     path: '/edit',
     exact: false,
     component: edit
+  },
+  {
+    path: '/antd',
+    exact: false,
+    component: antd
   },
 ]
 

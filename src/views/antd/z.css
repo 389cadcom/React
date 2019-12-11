@@ -1,0 +1,30 @@
+.am-button-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.am-list-item{
+  display: flex;
+  padding-left: 15px;
+  vertical-align: middle;
+  align-items: center;
+}
+
+.grid-item{
+  &-content{
+    padding: 0;
+  }
+  &-inner-content{
+    padding: 0
+  }
+  .grid-text{
+    padding: 0
+  }
+  .grid-icon{
+    padding: 0
+  }
+}
+
+//TODO CheckboxItem, Radio 放在list外面手机会显示列表.5线条
