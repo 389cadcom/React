@@ -13,15 +13,17 @@ import { Flex, List, Carousel, Icon, Badge, NoticeBar, Accordion} from "antd-mob
 
 //4.Flex | wrap, direction, justify, align, alignContent
 
-//5.Checkbox | defaultChecked, checked, disabled
+//5.Checkbox | defaultChecked, checked, disabled   AgreeItem, CheckboxItem
+
+//  Radio | name, checked={value === item.value}
 
 //6.List | thumb, extra, warp, multi, arrow, align, error
 
-//7.Grid | data{icon, text}, columnNum, hasLine, isCarousel, carouselMaxRow, renderItem
+//7.Grid | data{icon, text}, columnNum, hasLine, isCarousel, carouselMaxRow, renderItem( item=>) icon,text
 
 //8.Carousel | autoplay, autoplayInterval, infinite, dots, dotStyle, selectedIndex, vertical, cellSpacing, slideWidth
 
-//9.Card | full Header, Body, Footer -- thumb, title, extra - content
+//9.Card | full Body, Header -- thumb, title, extra - Footer content
 
 //10.Accordion | accordion openAnimate={{}}, Accordion.Panel, defaultActiveKey
 
@@ -33,11 +35,18 @@ import { Flex, List, Carousel, Icon, Badge, NoticeBar, Accordion} from "antd-mob
 
 //14.Steps.Step | current, status, icon      - wait process finish error
 
-//15.NoticeBar | mode, icon, marqueeProps, action, onClick
+//15.NoticeBar | mode, icon, marqueeProps, action
 
 //FIXME:
-//1.TabBar | tabs, swipeable, initialPage, tabBarPosition, renderTab
+//1.Tabs | tabs, swipeable, initialPage, tabBarPosition, renderTab
 //    tabBarUnderlineStyle, tabBarTextStyle, renderTabBar={props => <Tabs.DefaultTabBar {...props} page={4} />}
+
+//2.TabBar Item | title, icon, selectedIcon, selected = {this.state.selectedTab === 'Find'}, onPress, badge, dot
+
+//3.ListView | dataSource, initialListSize, useBodyScroll, renderRow, renderFooter, renderSeparator, renderSection
+//     onEndReached, pullToRefresh
+
+//4.Drawer | sidebar, onOpenChange, docked, open, enableDragHandle
 
 //一、菜单导航
 TabBar, Tabs, NavBar, Menu, Drawer, Popover, Pagination
