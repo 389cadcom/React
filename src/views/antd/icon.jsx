@@ -61,7 +61,7 @@ export default class Demo extends Component {
           <Button inline size="small" onClick = { this.addHandler } type="primary">添加</Button>
           <Steps size="small" current={1} direction="horizontal">
             {
-              [1, 2, 3, 4].map( item => <Step key={item} title={item} />)
+              [1, 2, 3].map( item => <Step key={item} title={item} />)
             }
           </Steps>
           <Steps current={1}>

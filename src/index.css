@@ -7,9 +7,9 @@ p{
   margin: 0;
   margin-bottom: 10px;
 }
-a{
+nav a{
   display: inline-block;
-  /* margin-right: 8px; */
+  margin-right: 8px;
 }
 
 .am-button-icon{

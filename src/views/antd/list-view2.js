@@ -3,14 +3,16 @@ import ReactDOM from 'react-dom'
 import { ListView, Icon, PullToRefresh, WhiteSpace } from 'antd-mobile'
 
 var rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+let sectionIds = ['page1'];
 
 export default class View extends Component {
   constructor(props) {
     super(props)
+
+    //数据源
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
     })
-
     this.state = {
       dataSource: ds,
       list: {
@@ -25,6 +27,25 @@ export default class View extends Component {
   onEndReached = (page, lastPage) => {
     if (page < lastPage) {
       this.setState({ upLoading: true })
+      setTimeout(() => {
+        var datas = this.state.list.rows.concat();
+        var num = this.state.list.pageNum + 1
+        var len = datas.length;
+
+        //TODO 头部标题
+        sectionIds.push('page' + num)
+        for(var i=1; i<= 10; i++){
+          datas.push(len+i)
+        }
+
+        this.setState((state, props) => ({
+          loading: false,
+          list: {...state.list, pageNum: num, rows: datas }
+        }))
+      }, 800)
+
+    }else{
+      this.setState({ upLoading: false })
     }
   }
   //下拉刷新
@@ -42,7 +63,7 @@ export default class View extends Component {
   //TODO 初始没有数据--请注意条件判断DOM值, 三目运算
   componentDidMount() {
     let $el = ReactDOM.findDOMNode(this.lv)
-    // console.log($el);
+
     let height = document.documentElement.clientHeight - $el.parentNode.offsetTop;
 
     this.setState({

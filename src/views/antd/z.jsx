@@ -1,11 +1,11 @@
-import { TabBar, NavBar, Drawer, Popover, Pagination} from "antd-mobile"
+import { TabBar, NavBar, Drawer, Popover, Pagination, Checkbox, Stepper, TextareaItem, DatePicker, SearchBar, ActionSheet, PullToRefresh} from "antd-mobile"
 import { Flex, List, Carousel, Icon, Badge, NoticeBar, Accordion} from "antd-mobile"
 
 //1.icon | type, size, color
 
 'check-circle', 'check', 'check-circle-o',
 'cross-circle', 'cross', 'cross-circle-o',
-'up', 'down', 'left', 'right', 'ellipsis', 'loading'
+'up', 'down', 'left', 'right', 'ellipsis', 'loading', 'search'
 
 //2. buttton | type, size, inline, disabled, loading, icon
 
@@ -57,10 +57,17 @@ Flex, List, Grid, Carousel, Card, Accordion-Accordion.Panel
 Icon, Steps, Tag, Badge, NoticeBar
 
 //三、数据录入
+Button, InputItem, TextareaItem, Checkbox, Radio, Switch, Stepper,
+
+Calendar, Slider, Range, SearchBar,
+
+Picker, PickerView, DatePicker, DataPickerView, ImagePicker,
 
 //四、信息反馈
+Toast, Modal, Progress, ActionSheet,
 
 //五、手势操作
+PullToRefresh, SwipeAction
 
 //六、手势操作
 
