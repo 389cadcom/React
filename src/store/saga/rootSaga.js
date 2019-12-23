@@ -2,6 +2,7 @@ import { all } from 'redux-saga/effects'
 import { delay } from 'redux-saga/effects'
 
 import countSaga from './countSaga'
+import listSaga from './listSaga'
 
 function* hello() {
   yield delay(1000);
@@ -13,5 +14,5 @@ function* watchSaga() {
 }
 
 export function* rootSaga() {
-  yield all([hello(), countSaga()])
+  yield all([hello(), countSaga(), listSaga()])
 }
