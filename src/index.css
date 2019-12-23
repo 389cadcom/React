@@ -97,3 +97,8 @@ nav a{
   opacity: 0.4;
   z-index: 79;
 }
+
+.am-search-input .am-search-synthetic-ph{
+  padding-left: 15px;
+  text-align: left !important;
+}
