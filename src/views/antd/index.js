@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import Form from './form'
-import Picker from './picker'
-import Flex from './flex'
-import Icon from './icon'
-import List from './list'
+import Form from './page/form'
+import Picker from './page/picker'
+import Icon from './page/flex'
+import List from './page/list'
+import Feedback from './page/feedback'
 import ListView from './list-view2'
-import Menu from './menu'
 import { Link, Switch, Route } from 'react-router-dom'
 
 export default class Antd extends Component {
@@ -18,6 +17,7 @@ export default class Antd extends Component {
           <Link to="/antd/form">表单</Link>
           <Link to="/antd/picker">选择器</Link>
           <Link to="/antd/icon">Icon</Link>
+          <Link to="/antd/feedback">提示</Link>
         </nav>
         <Switch>
           <Route path="/antd/" exact component={ ListView }/>
@@ -25,6 +25,7 @@ export default class Antd extends Component {
           <Route path="/antd/form" component={ Form }/>
           <Route path="/antd/picker" component={ Picker }/>
           <Route path="/antd/icon" component={ Icon }/>
+          <Route path="/antd/feedback" component={ Feedback }/>
         </Switch>
       </>
     )

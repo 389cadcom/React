@@ -32,20 +32,19 @@ export default class extends Component {
           ))
         }
         <AgreeItem data-seed="logId" onChange={e => console.log('checkbox', e)}>
-          Agree <a onClick={(e) => { e.preventDefault();  }}>agreement</a>
+          Agree agreement
         </AgreeItem>
 
         <List>
           <List.Item> item </List.Item>
           <InputItem
             ref={el => this.inputRef = el}
-            updatePlaceholder={true}
             extra= {<Icon type="right" />} clear defaultValue='10'>请输入</InputItem>
           <List.Item
             extra={
             <Switch color="red" platform='android' checked={this.state.checked}
-              onChange={()=>this.setState({checked:!this.state.checked})}></Switch>}
-          >
+              onChange={()=>this.setState({checked:!this.state.checked})}></Switch>
+          }>
             off
           </List.Item>
           <List.Item extra = {

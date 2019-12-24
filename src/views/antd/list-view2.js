@@ -2,108 +2,170 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { ListView, Icon, PullToRefresh, WhiteSpace } from 'antd-mobile'
 
-var rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-let sectionIds = ['page1'];
+const data = [
+  {
+    img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
+    title: 'Meet hotel',
+    des: '不是所有的兼职汪都需要风吹日晒',
+  },
+  {
+    img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
+    title: 'McDonald\'s invites you',
+    des: '不是所有的兼职汪都需要风吹日晒',
+  },
+  {
+    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
+    title: 'Eat the week',
+    des: '不是所有的兼职汪都需要风吹日晒',
+  },
+];
+const NUM_ROWS = 20;
+let pageIndex = 0;
 
-export default class View extends Component {
+function genData(pIndex = 0) {
+  const dataArr = [];
+  for (let i = 0; i < NUM_ROWS; i++) {
+    dataArr.push(`row - ${(pIndex * NUM_ROWS) + i}`);
+  }
+  return dataArr;
+}
+
+export default class viewlist extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 !== row2,
+    });
 
-    //数据源
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-    })
     this.state = {
-      dataSource: ds,
-      list: {
-        pageNum: 1,
-        totalPage: 4,
-      },
-      upLoading: false,
-      pullLoading: false,
+      dataSource,
+      refreshing: true,
+      isLoading: true,
+      height: document.documentElement.clientHeight,
+      hasMore: true
+    };
+  }
+
+  componentDidUpdate() {
+    if (this.state.useBodyScroll) {
+      document.body.style.overflow = 'auto';
+    } else {
+      document.body.style.overflow = 'hidden';
     }
   }
-  //上拉加载
-  onEndReached = (page, lastPage) => {
-    if (page < lastPage) {
-      this.setState({ upLoading: true })
-      setTimeout(() => {
-        var datas = this.state.list.rows.concat();
-        var num = this.state.list.pageNum + 1
-        var len = datas.length;
 
-        //TODO 头部标题
-        sectionIds.push('page' + num)
-        for(var i=1; i<= 10; i++){
-          datas.push(len+i)
-        }
-
-        this.setState((state, props) => ({
-          loading: false,
-          list: {...state.list, pageNum: num, rows: datas }
-        }))
-      }, 800)
-
-    }else{
-      this.setState({ upLoading: false })
-    }
-  }
-  //下拉刷新
-  onRefresh = () => {
-    this.setState({ pullLoading: true })
-    setTimeout(() => {
-      this.setState({
-        pullLoading: false,
-      })
-    }, 1500)
-  }
-  renderRow = (item, i) => {
-    return <div style={{padding: '20px 10px'}}>item{ item}</div>
-  }
-  //TODO 初始没有数据--请注意条件判断DOM值, 三目运算
   componentDidMount() {
-    let $el = ReactDOM.findDOMNode(this.lv)
+    const hei = this.state.height - ReactDOM.findDOMNode(this.lv).offsetTop;
 
-    let height = document.documentElement.clientHeight - $el.parentNode.offsetTop;
-
-    this.setState({
-      height,
-      list: {
-        ...this.state.list,
-        rows
-      }
-    })
+    setTimeout(() => {
+      this.rData = genData();
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(genData()),
+        height: hei,
+        refreshing: false,
+        isLoading: false,
+      });
+    }, 1500);
   }
+
+  onRefresh = () => {
+    this.setState({ refreshing: true, isLoading: true });
+
+
+    setTimeout(() => {
+      this.rData = genData();
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(this.rData),
+        refreshing: false,
+        isLoading: false,
+      });
+    }, 600);
+  };
+
+  onEndReached = (event) => {
+    //全部
+    if(this.rData.length >= 30){
+      this.setState({
+        hasMore: false,
+        isLoading: true
+      })
+    }
+
+    if (this.state.isLoading && !this.state.hasMore) {
+      return;
+    }
+    console.log('reach end', event);
+
+    this.setState({ isLoading: true });
+    setTimeout(() => {
+      this.rData = [...this.rData, ...genData(++pageIndex)];
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(this.rData),
+        isLoading: false,
+      });
+    }, 500);
+  };
+
   render() {
-    const { list, dataSource, upLoading, pullLoading } = this.state
-    return (
-      <div className="goodsDetail">
-        {list && list.rows && list.rows.length ? (
-          <ListView ref={ el => this.lv = el }
-            dataSource={dataSource.cloneWithRows(list.rows)}
-            initialListSize={10}
-            // pageSize={10}
-            // useBodyScroll={true}
-            style={{ height: this.state.height, overflow: 'auto', }}
-
-            renderSeparator = {(sectionID, rowID)=> <WhiteSpace key={rowID} style={{backgroundColor:'#f0f0f0'}}/>}
-            renderRow={(rowData, id1, i) => this.renderRow(rowData, i)}
-            renderFooter={() => (
-              <div style={{ padding: 10, textAlign: 'center' }}>
-                {list.pageNum < list.totalPage && upLoading ? <Icon type='loading' /> : '已加载全部数据'}
-              </div>
-            )}
-
-            onEndReached={() => this.onEndReached(list.pageNum, list.totalPage)}
-            onEndReachedThreshold={20}
-            pullToRefresh={ <PullToRefresh refreshing={pullLoading} onRefresh={this.onRefresh} /> }
-          />
-        ) : list && list.rows && !list.rows.length ? (
-          <div className="goodEntry" ref={ el => this.lv = el }>
-            <p>暂无数据</p>
+    const separator = (sectionID, rowID) => (
+      <div
+        key={`${sectionID}-${rowID}`}
+        style={{
+          backgroundColor: '#F5F5F9',
+          height: 8,
+          borderTop: '1px solid #ECECED',
+          borderBottom: '1px solid #ECECED',
+        }}
+      />
+    );
+    let index = data.length - 1;
+    const row = (rowData, sectionID, rowID) => {
+      if (index < 0) {
+        index = data.length - 1;
+      }
+      const obj = data[index--];
+      return (
+        <div key={rowID}
+          style={{
+            padding: '0 15px',
+            backgroundColor: 'white',
+          }}
+        >
+          <div style={{ height: '50px', lineHeight: '50px', color: '#888', fontSize: '18px', borderBottom: '1px solid #ddd' }}>
+            {obj.title}
           </div>
-        ) : <div ref={ el => this.lv = el }></div>}
-      </div>
+          <div style={{ display: '-webkit-box', display: 'flex', padding: '15px' }}>
+            <img style={{ height: '63px', width: '63px', marginRight: '15px' }} src={obj.img} alt="" />
+            <div style={{ display: 'inline-block' }}>
+              <div style={{ marginBottom: '8px', color: '#000', fontSize: '16px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '250px' }}>{obj.des}-{rowData}</div>
+              <div style={{ fontSize: '16px' }}><span style={{ fontSize: '30px', color: '#FF6E27' }}>{rowID}</span> 元/任务</div>
+            </div>
+          </div>
+        </div>
+      );
+    };
+    return (
+      <ListView
+        ref={el => this.lv = el}
+        dataSource={this.state.dataSource}
+        renderHeader={() => <span>刷新 -- 加载</span>}
+        renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
+          { this.state.hasMore ? 'Loading...' : '数据已全部加载'}
+        </div>)}
+        renderRow={row}
+        renderSeparator={separator}
+        style={{
+          height: this.state.height,
+          border: '1px solid #ddd',
+          margin: '5px 0',
+        }}
+        pullToRefresh={<PullToRefresh
+          refreshing={this.state.refreshing}
+          onRefresh={this.onRefresh}
+        />}
+        onEndReached={this.onEndReached}
+        pageSize={5}
+      />
     )
   }
 }
