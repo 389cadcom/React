@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import Form from './page/form'
 import Picker from './page/picker'
-import Icon from './page/flex'
+import Icon from './page/icon'
 import List from './page/list'
 import Feedback from './page/feedback'
-import ListView from './list-view2'
+import ListView from './page/list-view'
 import { Link, Switch, Route } from 'react-router-dom'
 
 export default class Antd extends Component {
