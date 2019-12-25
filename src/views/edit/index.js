@@ -1,16 +1,29 @@
 import React from 'react'
+import { Prompt } from 'react-router'
 // import PropTypes from 'prop-types'
 
-function Edit(props) {
-  return (
-    <div className="edit">
-      edit
-    </div>
-  )
-}
+class Edit extends React.Component {
+  constructor(props) {
+    super(props)
+    console.log(props)
+    this.state = { dirty: false }
+  }
+  onInput = (e) => {
+    const isShow = !!e.target.value.trim()
+    this.setState({ dirty: isShow })
+  }
 
-Edit.propTypes = {
-
+  render() {
+    return (
+      <div>
+        <h3>Form</h3>
+        <input type="text" onInput={this.onInput} />
+        <Prompt
+          when={this.state.dirty}
+          message="数据尚未保存，确定离开？" />
+      </div>
+    )
+  }
 }
 
 export default Edit

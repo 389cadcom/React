@@ -1,24 +1,27 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { ListView, Icon, PullToRefresh, WhiteSpace } from 'antd-mobile'
+import './list.scss'
 
 const data = [
   {
     img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
     title: 'Meet hotel',
-    des: '需要风吹日晒',
+    des: '需要风吹日晒需要风吹日晒需要风吹日晒',
   },
   {
     img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
     title: 'McDonald\'s invites you',
-    des: '都需要风吹日晒',
+    des: '都需要风吹日晒1',
   },
   {
     img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
     title: 'Eat the week',
-    des: '都需要风吹日晒',
+    des: '都需要风吹日晒2',
   },
-];
+]
+let index = data.length - 1;
+
 const nums = 10;
 let pageIndex = 1
 function genData(pIndex = 0) {
@@ -99,30 +102,21 @@ export default class viewlist extends React.Component {
   }
   //渲染行数据-- 使用data数据
   renderRow = (rowData, secID, rowID) => {
-    let index = data.length - 1;
     if (index < 0) {
       index = data.length - 1;
     }
     const obj = data[index--];
     return (
-      <div key={rowID}
-        style={{
-          padding: '0 15px',
-          backgroundColor: 'white',
-        }}
-      >
-        <div style={{ height: '50px', lineHeight: '50px', color: '#888', fontSize: '18px', borderBottom: '1px solid #ddd' }}>
-          {obj.title}
-        </div>
-        <div style={{ display: 'flex', padding: '10px 0' }}>
-          <img style={{ height: '63px', width: '63px', marginRight: '10px' }} src={obj.img} alt="" />
-          <div>
-            <div style={{ marginBottom: '8px', color: '#000', fontSize: '16px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {obj.des}-{rowData}
+      <div key={rowID} className="panel">
+        <div className="panel_hd"> {obj.title} </div>
+        <div className="panel_bd">
+          <img className="media_hd" src={obj.img} alt="" />
+          <div className="media_bd">
+            <div className='media_title ellipsis'>
+              <span style={{ color: '#FF6E27' }}>{rowID}</span> 元 {secID}
             </div>
-            <div style={{ fontSize: '16px' }}>
-              <span style={{ color: '#FF6E27' }}>{rowID}</span> 元
-              {secID}
+            <div className="media_desc">
+              {obj.des}-{rowData} {obj.des}-{rowData} {obj.des}-{rowData}
             </div>
           </div>
         </div>
@@ -135,7 +129,9 @@ export default class viewlist extends React.Component {
    *
    * ref, style.height
    * dataSource, pageSize, pullToRefresh, onEndReached
-   * renderHeader, renderFooter, renderRow, renderSeparator
+   * renderHeader, renderFooter, renderRow,
+   *
+   * rData = [...this.rData, ...((await this.getData()).sceneryinfo)];
    */
   render() {
     let {hasMore, refreshing, height, dataSource} = this.state;
@@ -144,6 +140,7 @@ export default class viewlist extends React.Component {
         ref={el => this.lv = el}
         style={{
           height: height,
+          maxWidth: '100%',
           border: '1px solid #ddd',
           margin: '5px 0',
         }}
