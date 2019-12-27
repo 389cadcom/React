@@ -1,7 +1,7 @@
 // @babel/plugin-syntax-dynamic-import
 
-// import AsyncComponent from '../components/AsyncComponent'
-// const Home = AsyncComponent(() => import('../views/home'))
+import AsyncComponent from '../components/AsyncComponent'
+// const home = AsyncComponent(() => import('../views/home'))
 
 import home from '../views/home'
 import edit from '../views/edit'
