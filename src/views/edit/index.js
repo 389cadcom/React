@@ -30,7 +30,7 @@ class Example extends React.Component {
     document.title = `You clicked ${this.state.count} times`
   }
   //运算逻辑简单的直接使用行内迭代
-  handler = (params) => {
+/*   handler = (params) => {
     return (
       <div>
         {this.props.data.map(function(data, i) {
@@ -38,7 +38,7 @@ class Example extends React.Component {
         })}
       </div>
     )
-  }
+  } */
 
   render() {
     return (

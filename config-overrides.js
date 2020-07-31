@@ -52,7 +52,7 @@ module.exports = override(
   addWebpackAlias(webpackAlias),
   fixBabelImports('import', {
     libraryName: 'antd-mobile',
-    style: 'css'
+    style: 'css',
   }),
   // analyzer()
   process.env.BUNDLE && addBundleVisualizer()

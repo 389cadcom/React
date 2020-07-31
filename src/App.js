@@ -25,8 +25,9 @@ const maps = {
   POP: 'back'
 }
 
+//TODO 动画 react-transition-group 路由
 const Routes = withRouter(({history, location}) => {
-  console.log(history, location);
+  // console.log(history, location);
   return (
     <TransitionGroup childFactory={child => React.cloneElement(child, {
       classNames: maps[history.action]
@@ -44,7 +45,7 @@ const Routes = withRouter(({history, location}) => {
 );
 
 
-export class App extends Component {
+class App extends Component {
   //connect不传参情况,手动触发指定action
   argument = () => {
     let { dispatch } = this.props;
@@ -53,8 +54,14 @@ export class App extends Component {
 
   addHandler = () => {
     // this.props.reduxAdd(this.props.num + 1)      //redux
-    this.props.async()
+    this.props.async('async')
   }
+  componentDidMount() {
+    fetch('/abc/get').then( res => res.json()).then( res => {
+      this.log(res)
+    })
+  }
+
   render() {
     return (
       <Router history={history}>
